@@ -1,16 +1,18 @@
 const express = require('express')
 const app = express()
 const path = require('path')
-const multer  = require('multer')  
+const multer  = require('multer')
+
+const port = 3000
+  
 
                                                                         
 const storage = multer.diskStorage({ 
-    destination : (req,file,cb)=> {  //cb = callback function
-        cb(null,"images")
-    },
+    destination : './images'
+    ,
     filename: (req,file,cb)=>{
         console.log(file)
-        cb(null,Date.now() + path.extname(file.originalname))
+        cb(null, file.fieldname + file.originalname)
     }
 }) 
 
@@ -33,6 +35,6 @@ app.post('/upload', upload.single('image'), (req,res)=> {
 
 
 
-app.listen(3000,()=>{
-    console.log('Server is running on port 3000')
+app.listen(port,()=>{
+    console.log(`Server is running on port ${port}`)
 })
